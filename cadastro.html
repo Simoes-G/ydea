@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Adicione o link do jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mask/1.14.11/jquery.mask.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+  <script src="validacao.js"></script>
+  <script src="mascara.js"></script>
+  <script src="vericacaoSenha.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style>
+      .formulario{
+        background-color: rgb(53, 59, 66);
+        border-radius: 10px;
+        padding: 50px;
+        width: 700px;
+        max-height: 625px;
+        min-width: 200px;
+        min-height: 150px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        border: solid 3px rgb(110, 110, 110);
+      }
+      .formulario> button {
+        margin-top: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      .form-control{
+        border: none;
+        color: white;
+      }
+      
+      .form-control:focus{
+        color: white;
+
+      }
+      hr {
+        color: rgb(187, 187, 187);
+      }
+    </style>
+</head>
+
+<body class="bg-dark vw-100 vh-100">
+  <div class="container h-100 w-100 d-flex justify-content-center align-items-center">
+    <form class="formulario text-white" id="cadastro-form" action="cadastro.php" method="post">
+      <div class="form-group">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" class="bg-dark form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" class="bg-dark form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" name="telefone" class="bg-dark form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="senha">Senha:</label>
+        <div class="input-group">
+          <input type="password" id="senha" name="senha" class="bg-dark form-control" required>
+          <div class="input-group-append">
+            <button type="button" onclick="visualizarSenha('senha', 'confirmaSenha')"
+              class="btn btn-outline-secondary"><i id="icon-senha" class="fas fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="confirmaSenha">Confirme a Senha:</label>
+        <div class="input-group">
+          <input type="password" id="confirmaSenha" name="confirmaSenha" class="bg-dark form-control" required>
+          <div class="input-group-append">
+            <button type="button" onclick="visualizarSenha('senha', 'confirmaSenha')"
+              class="btn btn-outline-secondary"><i id="icon-confirma" class="fas fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <button type="submit" name="submitCadastro" class="btn btn-outline-warning btn-block">Cadastre-se</button>
+      <hr>
+    </form>
+  </div>
+  <!-- Use o jQuery para adicionar animações aos elementos -->
+  <script>
+    // Adicione uma animação formulário
+    $(document).ready(function () {
+      $(".container").fadeIn(1000);
+    });
+    $(document).ready(function () {
+      $('#telefone').mask('(00) 0000-0000');
+    });
+    // Adicione uma animação validação
+    $(document).ready(function () {
+      $("#cadastro-form").validate({
+        showErrors: function (errorMap, errorList) {
+          this.defaultShowErrors();
+          $(".error").slideDown(500);
+        },
+        success: function (label) {
+          label.addClass("success");
+          label.slideDown(500);
+        }
+      });
+    });
+
+    //troca de ícone ao mostrar/ocultar a senha e a confirmação da senha
+    function visualizarSenha(senhaId, confirmaId) {
+      let campoSenha = document.getElementById(senhaId);
+      let campoConfirmarSenha = document.getElementById(confirmaId);
+      let iconSenha = document.getElementById("icon-senha");
+      let iconConfirma = document.getElementById("icon-confirma");
+
+      if (campoSenha.type === "password") {
+        campoSenha.type = "text";
+        campoConfirmarSenha.type = "text";
+        iconSenha.classList.remove("fa-eye");
+        iconSenha.classList.add("fa-eye-slash");
+        iconConfirma.classList.remove("fa-eye");
+        iconConfirma.classList.add("fa-eye-slash");
+      } else {
+        campoSenha.type = "password";
+        campoConfirmarSenha.type = "password";
+        iconSenha.classList.remove("fa-eye-slash");
+        iconSenha.classList.add("fa-eye");
+        iconConfirma.classList.remove("fa-eye-slash");
+        iconConfirma.classList.add("fa-eye");
+      }
+    }
+  </script>
+
+</html>
